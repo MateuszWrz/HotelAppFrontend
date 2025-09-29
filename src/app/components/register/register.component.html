@@ -1,0 +1,59 @@
+<div class="register-container">
+  <h2>Rejestracja</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <label for="email">Email</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      formControlName="email"
+      autocomplete="email"
+    />
+    <div
+      class="error-message"
+      *ngIf="
+        registerForm.get('email')?.touched && registerForm.get('email')?.invalid
+      "
+    >
+      Podaj poprawny email
+    </div>
+
+    <label for="password">Hasło</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      formControlName="password"
+    />
+    <div
+      class="error-message"
+      *ngIf="
+        registerForm.get('password')?.touched &&
+        registerForm.get('password')?.invalid
+      "
+    >
+      Hasło nie może być puste
+    </div>
+
+    <label for="confirmPassword">Powtórz hasło</label>
+    <input
+      id="confirmPassword"
+      name="confirmPassword"
+      type="password"
+      formControlName="confirmPassword"
+    />
+    <div
+      class="error-message"
+      *ngIf="
+        registerForm.hasError('passwordMismatch') &&
+        registerForm.get('confirmPassword')?.touched
+      "
+    >
+      Hasła muszą być takie same
+    </div>
+
+    <button type="submit">Zarejestruj się</button>
+  </form>
+
+  <p *ngIf="serverMessage" class="server-message">{{ serverMessage }}</p>
+</div>

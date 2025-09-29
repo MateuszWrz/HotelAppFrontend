@@ -1,0 +1,62 @@
+<div class="hotels-list-container">
+  <div class="search-summary">
+    <h2>Hotele w mieście: {{ city }}</h2>
+    <div class="search-details">
+      <span
+        ><i class="fas fa-calendar"></i> {{ checkInDate }} -
+        {{ checkOutDate }}</span
+      >
+      <span><i class="fas fa-moon"></i> {{ calculateNights() }} nocy</span>
+      <span><i class="fas fa-users"></i> {{ guests }} gości</span>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Szukamy najlepszych hoteli...</p>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="hotels-grid" *ngIf="hotels.length > 0 && !loading">
+    <div class="hotel-card" *ngFor="let hotel of hotels">
+      <img
+        class="hotel-image"
+        src="assets/images/hotel.png"
+        alt="{{ hotel.name }}"
+      />
+
+      <div class="hotel-content">
+        <h3>{{ hotel.name }}</h3>
+        <p class="hotel-address">
+          <i class="fas fa-map-marker-alt"></i>
+          {{ hotel.address }}, {{ hotel.city }}
+        </p>
+
+        <div class="hotel-features">
+          <span><i class="fas fa-wifi"></i> WiFi</span>
+          <span><i class="fas fa-parking"></i> Parking</span>
+          <span><i class="fas fa-swimming-pool"></i> Basen</span>
+        </div>
+
+        <div class="hotel-footer">
+          <div class="price-info">
+            <span class="price-label">Cena od</span>
+            <span class="price">150 PLN</span>
+            <span class="price-period">za noc</span>
+          </div>
+
+          <button class="btn-details" (click)="goToHotelDetails(hotel.id)">
+            Zobacz pokoje
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && hotels.length === 0" class="no-results">
+    <i class="fas fa-search"></i>
+    <p>Nie znaleziono hoteli w mieście {{ city }}</p>
+    <button routerLink="/">Wróć do wyszukiwania</button>
+  </div>
+</div>

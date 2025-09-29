@@ -1,0 +1,158 @@
+<div class="profile-container">
+  <div class="profile-tabs">
+    <button
+      [class.active]="activeTab === 'myData'"
+      (click)="selectTab('myData')"
+    >
+      Moje dane
+    </button>
+    <button
+      [class.active]="activeTab === 'history'"
+      (click)="selectTab('history')"
+    >
+      Historia rezerwacji
+    </button>
+    <button
+      [class.active]="activeTab === 'myReservations'"
+      (click)="selectTab('myReservations')"
+    >
+      Aktywne rezerwacje
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Ładowanie...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+  </div>
+
+  <div class="tab-content" *ngIf="!loading">
+    <div *ngIf="activeTab === 'myData' && user">
+      <h2>Dane osobowe</h2>
+
+      <div class="profile-field" *ngFor="let field of userFields">
+        <span class="label">{{ field.label }}</span>
+
+        <span class="value" *ngIf="!editMode[field.key]">
+          {{ getUserFieldValue(field.key) || field.placeholder }}
+        </span>
+
+        <input
+          *ngIf="editMode[field.key] && field.editable"
+          [value]="getUserFieldValue(field.key)"
+          (input)="setUserFieldValue(field.key, $any($event.target).value)"
+          [placeholder]="field.placeholder"
+          class="edit-input"
+        />
+
+        <button
+          *ngIf="!editMode[field.key] && field.editable"
+          class="edit-btn"
+          (click)="toggleEdit(field.key)"
+        >
+          Edytuj
+        </button>
+
+        <button
+          *ngIf="editMode[field.key] && field.editable"
+          class="cancel-btn"
+          (click)="toggleEdit(field.key)"
+        >
+          Anuluj
+        </button>
+      </div>
+
+      <div *ngIf="anyFieldEditing()" class="save-section">
+        <button class="save-btn" (click)="saveUserData()">Zapisz zmiany</button>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'history'">
+      <h2>Historia rezerwacji</h2>
+
+      <div *ngIf="historyReservations.length === 0" class="no-data">
+        <p>Brak historii rezerwacji</p>
+      </div>
+
+      <div class="reservations-list" *ngIf="historyReservations.length > 0">
+        <div
+          class="reservation-card"
+          *ngFor="let reservation of historyReservations"
+        >
+          <div class="reservation-header">
+            <h3>{{ reservation.hotelName }}</h3>
+            <span class="reservation-number"
+              >Nr: {{ reservation.reservationNumber }}</span
+            >
+          </div>
+
+          <div class="reservation-details">
+            <p><strong>Pokój:</strong> {{ reservation.roomDescription }}</p>
+            <p><strong>Miasto:</strong> {{ reservation.hotelCity }}</p>
+            <p>
+              <strong>Zameldowanie:</strong>
+              {{ formatDate(reservation.checkInDate) }}
+            </p>
+            <p>
+              <strong>Wymeldowanie:</strong>
+              {{ formatDate(reservation.checkOutDate) }}
+            </p>
+            <p>
+              <strong>Cena całkowita:</strong> {{ reservation.totalPrice }} PLN
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 'myReservations'">
+      <h2>Aktywne rezerwacje</h2>
+
+      <div *ngIf="activeReservations.length === 0" class="no-data">
+        <p>Brak aktywnych rezerwacji</p>
+      </div>
+
+      <div class="reservations-list" *ngIf="activeReservations.length > 0">
+        <div
+          class="reservation-card active"
+          *ngFor="let reservation of activeReservations"
+        >
+          <div class="reservation-header">
+            <h3>{{ reservation.hotelName }}</h3>
+            <span class="reservation-number"
+              >Nr: {{ reservation.reservationNumber }}</span
+            >
+          </div>
+
+          <div class="reservation-details">
+            <p><strong>Pokój:</strong> {{ reservation.roomDescription }}</p>
+            <p><strong>Miasto:</strong> {{ reservation.hotelCity }}</p>
+            <p>
+              <strong>Zameldowanie:</strong>
+              {{ formatDate(reservation.checkInDate) }}
+            </p>
+            <p>
+              <strong>Wymeldowanie:</strong>
+              {{ formatDate(reservation.checkOutDate) }}
+            </p>
+            <p><strong>Cena za noc:</strong> {{ reservation.roomPrice }} PLN</p>
+            <p>
+              <strong>Cena całkowita:</strong> {{ reservation.totalPrice }} PLN
+            </p>
+          </div>
+
+          <div class="reservation-actions">
+            <button
+              class="cancel-reservation-btn"
+              (click)="cancelReservation(reservation)"
+            >
+              Anuluj rezerwację
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

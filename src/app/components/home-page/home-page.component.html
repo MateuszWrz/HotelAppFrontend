@@ -1,0 +1,80 @@
+<div class="homepage-container">
+  <div class="hero">
+    <h1>Znajdź hotel</h1>
+  </div>
+
+  <div class="search-bar">
+    <div class="search-field">
+      <label>Cel podróży</label>
+      <input
+        type="text"
+        placeholder="Dokąd chcesz jechać?"
+        [(ngModel)]="destination"
+        (keyup.enter)="searchHotels()"
+      />
+    </div>
+
+    <div class="search-field">
+      <label>Zameldowanie</label>
+      <input
+        type="date"
+        [(ngModel)]="checkInDate"
+        [min]="today"
+        (change)="isDateRangeValid()"
+      />
+    </div>
+
+    <div class="search-field">
+      <label>Wymeldowanie</label>
+      <input
+        type="date"
+        [(ngModel)]="checkOutDate"
+        [min]="checkInDate || today"
+      />
+    </div>
+
+    <div class="search-field">
+      <label>Liczba gości</label>
+      <input type="number" min="1" max="10" [(ngModel)]="guests" />
+    </div>
+
+    <button
+      class="search-btn"
+      (click)="searchHotels()"
+      [disabled]="!destination || !isDateRangeValid()"
+    >
+      <i class="fas fa-search"></i> Szukaj
+    </button>
+  </div>
+
+  <div *ngIf="checkInDate && checkOutDate && !isDateRangeValid()" class="error">
+    Data wyjazdu musi być późniejsza niż data przyjazdu
+  </div>
+
+  <div class="destinations">
+    <h2>Popularne kierunki</h2>
+    <div class="cards">
+      <div class="card" (click)="quickSearch('Warszawa')">
+        <img src="assets/images/warszawa.jpg" alt="Warszawa" />
+        <div class="card-content">
+          <h3>Warszawa</h3>
+          <p>Stolica Polski</p>
+        </div>
+      </div>
+      <div class="card" (click)="quickSearch('kraków')">
+        <img src="assets/images/krakow.jpg" alt="Kraków" />
+        <div class="card-content">
+          <h3>Kraków</h3>
+          <p>Miasto królów</p>
+        </div>
+      </div>
+      <div class="card" (click)="quickSearch('Gdańsk')">
+        <img src="assets/images/Gdansk.jpg" alt="Gdańsk" />
+        <div class="card-content">
+          <h3>Gdańsk</h3>
+          <p>Perła Bałtyku</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

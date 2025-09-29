@@ -1,0 +1,102 @@
+<div class="hotel-details-container" *ngIf="hotel">
+  <div class="hotel-header">
+    <button
+      class="back-btn"
+      (click)="
+        router.navigate(['/hotels'], { queryParams: { city: hotel.city } })
+      "
+    >
+      <i class="fas fa-arrow-left"></i> Wróć
+    </button>
+
+    <div class="hotel-info">
+      <h1>{{ hotel.name }}</h1>
+      <p class="hotel-address">
+        <i class="fas fa-map-marker-alt"></i>
+        {{ hotel.address }}, {{ hotel.city }} {{ hotel.postalCode }}
+      </p>
+      <p class="hotel-contact" *ngIf="hotel.numberPhone">
+        <i class="fas fa-phone"></i> {{ hotel.numberPhone }}
+      </p>
+    </div>
+  </div>
+
+  <div class="booking-summary">
+    <div class="date-info">
+      <div>
+        <label>Zameldowanie</label>
+        <strong>{{ checkInDate }}</strong>
+      </div>
+      <div>
+        <label>Wymeldowanie</label>
+        <strong>{{ checkOutDate }}</strong>
+      </div>
+      <div>
+        <label>Liczba nocy</label>
+        <strong>{{ calculateNights() }}</strong>
+      </div>
+      <div>
+        <label>Liczba gości</label>
+        <strong>{{ guests }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="rooms-section">
+    <h2>Dostępne pokoje</h2>
+
+    <div class="rooms-grid" *ngIf="rooms.length > 0">
+      <div
+        class="room-card"
+        *ngFor="let room of rooms"
+        [class.selected]="selectedRoom?.id === room.id"
+      >
+        <img
+          class="room-image"
+          src="assets/images/hotel-room.jpg"
+          alt="Pokój"
+        />
+
+        <div class="room-content">
+          <h3>{{ room.description || "Pokój standardowy" }}</h3>
+
+          <div class="room-features">
+            <span><i class="fas fa-bed"></i> 2 osoby</span>
+            <span><i class="fas fa-wifi"></i> WiFi</span>
+            <span><i class="fas fa-tv"></i> TV</span>
+            <span><i class="fas fa-snowflake"></i> Klimatyzacja</span>
+          </div>
+
+          <div class="room-pricing">
+            <div class="price-per-night">
+              <span class="label">Cena za noc:</span>
+              <span class="price">{{ room.pricePerNight }} PLN</span>
+            </div>
+
+            <div class="total-price">
+              <span class="label"
+                >Cena całkowita ({{ calculateNights() }} nocy):</span
+              >
+              <span class="price total"
+                >{{ calculateTotalPrice(room.pricePerNight) }} PLN</span
+              >
+            </div>
+          </div>
+
+          <button class="btn-book" (click)="bookRoom(room)">
+            Zarezerwuj teraz
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="rooms.length === 0" class="no-rooms">
+      <p>Brak dostępnych pokoi w wybranym terminie</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <div class="spinner"></div>
+  <p>Ładowanie informacji o hotelu...</p>
+</div>

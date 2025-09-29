@@ -1,0 +1,120 @@
+<div class="booking-container">
+  <div *ngIf="bookingConfirmed" class="booking-success">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h1>Rezerwacja potwierdzona!</h1>
+    <p class="reservation-number">
+      Numer rezerwacji: <strong>{{ reservationNumber }}</strong>
+    </p>
+    <p>Szczegóły rezerwacji zostały wysłane na Twój adres email.</p>
+    <button class="btn-primary" routerLink="/profile">
+      Przejdź do moich rezerwacji
+    </button>
+  </div>
+
+  <div *ngIf="!bookingConfirmed && !loading" class="booking-form">
+    <h1>Podsumowanie rezerwacji</h1>
+
+    <div class="booking-details">
+      <div class="section hotel-info" *ngIf="hotel">
+        <h2>Hotel</h2>
+        <div class="info-card">
+          <h3>{{ hotel.name }}</h3>
+          <p>{{ hotel.address }}, {{ hotel.city }}</p>
+          <p *ngIf="hotel.numberPhone">Tel: {{ hotel.numberPhone }}</p>
+        </div>
+      </div>
+
+      <div class="section room-info" *ngIf="room">
+        <h2>Pokój</h2>
+        <div class="info-card">
+          <h3>{{ room.description || "Pokój standardowy" }}</h3>
+          <p>Cena za noc: {{ room.pricePerNight }} PLN</p>
+        </div>
+      </div>
+
+      <div class="section dates-info">
+        <h2>Termin pobytu</h2>
+        <div class="info-card">
+          <div class="date-row">
+            <span>Zameldowanie:</span>
+            <strong>{{ checkInDate | date : "dd.MM.yyyy" }}</strong>
+          </div>
+          <div class="date-row">
+            <span>Wymeldowanie:</span>
+            <strong>{{ checkOutDate | date : "dd.MM.yyyy" }}</strong>
+          </div>
+          <div class="date-row">
+            <span>Liczba nocy:</span>
+            <strong>{{ numberOfNights }}</strong>
+          </div>
+          <div class="date-row">
+            <span>Liczba gości:</span>
+            <strong>{{ guests }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section guest-info" *ngIf="user">
+        <h2>Dane gościa</h2>
+        <div class="info-card">
+          <p>
+            <strong>{{ user.name }} {{ user.lastName }}</strong>
+          </p>
+          <p>{{ user.email }}</p>
+          <p *ngIf="user.phoneNumber">Tel: {{ user.phoneNumber }}</p>
+        </div>
+        <button class="btn-edit" routerLink="/profile">Edytuj dane</button>
+      </div>
+
+      <div class="section price-summary">
+        <h2>Podsumowanie płatności</h2>
+        <div class="price-card">
+          <div class="price-row">
+            <span
+              >{{ room?.pricePerNight }} PLN x {{ numberOfNights }} nocy</span
+            >
+            <span>{{ totalPrice }} PLN</span>
+          </div>
+          <div class="price-row total">
+            <strong>Suma całkowita:</strong>
+            <strong class="total-price">{{ totalPrice }} PLN</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="section additional-info">
+        <h3>Ważne informacje</h3>
+        <ul>
+          <li>Zameldowanie od godziny 15:00</li>
+          <li>Wymeldowanie do godziny 11:00</li>
+          <li>Bezpłatne anulowanie do 24h przed przyjazdem</li>
+          <li>Płatność przy zameldowaniu</li>
+        </ul>
+      </div> -->
+    </div>
+
+    <div class="booking-actions">
+      <button class="btn-secondary" (click)="goBack()">Wróć</button>
+      <button
+        class="btn-primary"
+        (click)="confirmBooking()"
+        [disabled]="loading"
+      >
+        <span *ngIf="!loading">Potwierdź rezerwację</span>
+        <span *ngIf="loading">Przetwarzanie...</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading && !bookingConfirmed" class="loading">
+    <div class="spinner"></div>
+    <p>Ładowanie danych rezerwacji...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="loadData()">Spróbuj ponownie</button>
+  </div>
+</div>

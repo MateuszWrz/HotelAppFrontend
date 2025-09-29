@@ -1,0 +1,256 @@
+.profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.profile-tabs button {
+  background: transparent;
+  border: none;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.profile-tabs button:hover {
+  background: #f9fafb;
+  color: #374151;
+}
+
+.profile-tabs button.active {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.profile-tabs button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #2563eb;
+  border-radius: 2px 2px 0 0;
+}
+
+.tab-content {
+  min-height: 400px;
+}
+
+.tab-content h2 {
+  color: #1f2937;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+.profile-field {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.profile-field:last-child {
+  border-bottom: none;
+}
+
+.profile-field .label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+}
+
+.profile-field .value {
+  color: #6b7280;
+  font-size: 14px;
+  padding: 6px 0;
+}
+
+.edit-input {
+  padding: 10px 12px;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  background: #ffffff;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.edit-btn,
+.cancel-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.edit-btn:hover,
+.cancel-btn:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.save-section {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.save-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-btn:hover {
+  background: #1e40af;
+}
+
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reservation-card {
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 5px solid #2563eb;
+  padding: 20px;
+  transition: background 0.2s ease;
+}
+
+.reservation-card:hover {
+  background: #f1f5f9;
+}
+
+.reservation-card.active {
+  border-left-color: #16a34a;
+}
+
+.reservation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.reservation-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.reservation-number {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.reservation-details p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.reservation-actions {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.cancel-reservation-btn {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cancel-reservation-btn:hover {
+  background: #b91c1c;
+}
+
+.no-data p {
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 20px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+}
+
+.loading p {
+  color: #2563eb;
+  font-weight: 600;
+  text-align: center;
+  padding: 30px;
+}
+
+.error-message p {
+  color: #dc2626;
+  font-weight: 600;
+  text-align: center;
+  padding: 30px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .profile-field {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: left;
+  }
+
+  .reservation-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .save-section {
+    text-align: center;
+  }
+}
