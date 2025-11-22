@@ -30,7 +30,7 @@ export class RegisterComponent {
   }
 
   register() {
-    if (this.registerForm.invalid) {
+    if (this.registerForm.invalid || this.isSubmitting) {
       this.registerForm.markAllAsTouched();
       return;
     }
@@ -50,7 +50,15 @@ export class RegisterComponent {
         },
         error: (err: HttpErrorResponse) => {
           console.error('Błąd rejestracji', err);
-          this.serverMessage = err.error || 'Wystąpił błąd serwera';
+
+          if (err.error && typeof err.error === 'object' && err.error.message) {
+            this.serverMessage = err.error.message;
+          } else if (typeof err.error === 'string') {
+            this.serverMessage = err.error;
+          } else {
+            this.serverMessage = 'Wystąpił błąd serwera';
+          }
+
           this.isSubmitting = false;
         },
       });

@@ -17,6 +17,14 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | UrlTree {
+    const publicPaths = ['/login', '/register', '/verify'];
+
+    const path = state.url.split('?')[0];
+
+    if (publicPaths.includes(path)) {
+      return true;
+    }
+
     if (this.authService.isLoggedIn()) {
       return true;
     } else {

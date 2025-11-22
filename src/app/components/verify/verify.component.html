@@ -1,0 +1,18 @@
+<div class="verify-container" *ngIf="!loading">
+  <div [ngClass]="{ success: success, error: !success }" class="verify-box">
+    <h2>{{ serverMessage }}</h2>
+  </div>
+
+  <button
+    *ngIf="!isResendClicked"
+    type="button"
+    (click)="resendCode()"
+    [disabled]="isSubmitting || success === true"
+  >
+    <span *ngIf="!isSubmitting">Wyślij ponownie kod</span>
+  </button>
+</div>
+
+<div *ngIf="loading" class="verify-loading">
+  <p>Trwa weryfikacja konta...</p>
+</div>

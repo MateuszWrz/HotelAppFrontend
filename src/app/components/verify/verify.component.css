@@ -1,0 +1,31 @@
+.verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f5f6fa;
+}
+
+.verify-box {
+  text-align: center;
+  padding: 40px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+.verify-box.success h2 {
+  color: #28a745;
+}
+
+.verify-box.error h2 {
+  color: #dc3545;
+}
+
+.verify-loading {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 1.2rem;
+  color: #555;
+}

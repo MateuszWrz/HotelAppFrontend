@@ -16,6 +16,8 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { HotelsListComponent } from './components/hotel-list/hotel-list.component';
 import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
 import { BookingComponent } from './components/booking/booking.component';
+import { VerifyComponent } from './components/verify/verify.component';
+import { ResendVerifyCodeComponent } from './components/resend-verify-code/resend-verify-code.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { BookingComponent } from './components/booking/booking.component';
     HotelsListComponent,
     HotelDetailsComponent,
     BookingComponent,
+    VerifyComponent,
+    ResendVerifyCodeComponent,
   ],
   imports: [
     BrowserModule,

@@ -40,8 +40,13 @@ export class LoginComponent {
         this.router.navigateByUrl(returnUrl);
       },
       error: (err) => {
-        console.error('Login error', err);
-        this.serverMessage = err.error?.message || 'Błędny email lub hasło';
+        if (err.error && typeof err.error === 'object') {
+          this.serverMessage = err.error.message;
+        } else if (typeof err.error === 'string') {
+          this.serverMessage = err.error;
+        } else {
+          this.serverMessage = 'Wystąpił nieoczekiwany błąd';
+        }
       },
     });
   }

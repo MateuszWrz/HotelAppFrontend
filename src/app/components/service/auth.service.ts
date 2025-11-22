@@ -21,8 +21,20 @@ export class AuthService {
       );
   }
 
+  verifyAccount(token: string, email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/verify`, { token, email });
+  }
+
   register(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, { email, password });
+  }
+
+  resendVerification(email: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/resend?email=${email}`,
+      {},
+      { responseType: 'text' }
+    );
   }
 
   logout(): void {
