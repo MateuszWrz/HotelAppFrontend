@@ -1,53 +1,36 @@
 .hotel-details-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 30px 20px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: #ffffff;
 }
 
+/* HEADER */
 .hotel-header {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   padding-bottom: 20px;
   border-bottom: 1px solid #e0e0e0;
-  background-color: #ffffff;
-}
-
-.back-btn {
-  background-color: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  color: #2196f3;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 8px 16px;
-  margin-bottom: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  border-radius: 4px;
-}
-
-.back-btn:hover {
-  background-color: #e8f4fd;
-  border-color: #2196f3;
-  color: #1976d2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
 }
 
 .hotel-info h1 {
   font-size: 32px;
-  margin: 0 0 10px 0;
+  margin: 0;
   color: #1a1a1a;
 }
 
 .hotel-address,
 .hotel-contact {
-  color: #555555;
-  font-size: 16px;
-  margin: 5px 0;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 16px;
+  color: #555555;
 }
 
 .hotel-address i,
@@ -56,76 +39,148 @@
   width: 20px;
 }
 
+/* BUTTON */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #2196f3;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: fit-content;
+}
+
+.back-btn:hover {
+  background-color: #e8f4fd;
+  border-color: #2196f3;
+  color: #1976d2;
+}
+
+/* SUMMARY */
 .booking-summary {
+  margin-bottom: 30px;
+  padding: 20px;
   background-color: #f8fafb;
   border: 1px solid #e3e8ee;
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .date-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
+  gap: 15px;
 }
 
 .date-info > div {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
+  padding: 12px;
   background-color: #ffffff;
-  padding: 10px;
-  border-radius: 6px;
   border: 1px solid #e8ecf1;
+  border-radius: 6px;
 }
 
 .date-info label {
   font-size: 12px;
   color: #6b7280;
   font-weight: 500;
-  line-height: 1.2;
 }
 
 .date-info strong {
   font-size: 14px;
-  color: #1a1a1a;
   font-weight: 600;
-  line-height: 1.3;
+  color: #1a1a1a;
 }
 
+/* SORT */
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sort-bar label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 8px 36px 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+
+  background-color: #f9fafb;
+  color: #1a1a1a;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%232196f3' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.sort-select:hover {
+  border-color: #2196f3;
+  background-color: #ffffff;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+}
+
+/* ROOMS */
 .rooms-section h2 {
   font-size: 28px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   color: #1a1a1a;
   font-weight: 600;
 }
 
 .rooms-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
 }
 
 .room-card {
-  background: #ffffff;
-  border-radius: 12px;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  cursor: pointer;
+
+  background: #ffffff;
   border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
 .room-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   border-color: #d1d5db;
 }
 
 .room-card.selected {
-  border-color: #2196f3;
-  border-width: 2px;
+  border: 2px solid #2196f3;
   box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
 }
 
@@ -137,49 +192,50 @@
 }
 
 .room-content {
-  padding: 20px;
+  padding: 18px;
   background-color: #ffffff;
 }
 
 .room-content h3 {
+  margin-bottom: 15px;
   font-size: 20px;
-  margin: 0 0 15px 0;
-  color: #1a1a1a;
   font-weight: 600;
+  color: #1a1a1a;
 }
 
+/* FEATURES */
 .room-features {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
 .room-features span {
   display: flex;
   align-items: center;
   gap: 6px;
+  padding: 6px 10px;
+
+  font-size: 13px;
   color: #4b5563;
-  font-size: 14px;
+
   background-color: #f9fafb;
-  padding: 6px 12px;
-  border-radius: 20px;
   border: 1px solid #e5e7eb;
+  border-radius: 20px;
 }
 
 .room-features i {
   color: #2196f3;
-  font-size: 16px;
 }
 
+/* PRICING */
 .room-pricing {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  padding: 12px;
   background-color: #fafbfc;
-  padding: 15px;
-  border-radius: 8px;
   border: 1px solid #e8ecf1;
+  border-radius: 8px;
 }
 
 .price-per-night,
@@ -187,241 +243,173 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .price-per-night .label,
 .total-price .label {
-  color: #6b7280;
   font-size: 14px;
+  color: #6b7280;
 }
 
 .price {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #1a1a1a;
 }
 
 .price.total {
-  font-size: 22px;
-  color: #2196f3;
+  font-size: 20px;
   font-weight: 700;
+  color: #2196f3;
 }
 
+/* AVAILABILITY */
+.availability {
+  margin-bottom: 12px;
+}
+
+.availability .available {
+  color: green;
+  font-weight: 600;
+}
+
+.availability .unavailable {
+  color: red;
+  font-weight: 600;
+}
+
+/* BUTTON */
 .btn-book {
   width: 100%;
-  padding: 12px 24px;
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  border-radius: 6px;
+  padding: 12px;
   font-size: 16px;
   font-weight: 600;
+
+  background-color: #2196f3;
+  color: #fff;
+
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
 }
 
-.btn-book:hover {
+.btn-book:disabled {
+  background-color: #cfd8dc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-book:hover:not(:disabled) {
   background-color: #1976d2;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
 }
 
-.btn-book:active {
-  transform: translateY(0);
-}
-
+/* STATES */
 .no-rooms {
   text-align: center;
-  padding: 60px 20px;
+  padding: 40px 20px;
   background-color: #f9fafb;
-  border-radius: 8px;
   border: 1px solid #e5e7eb;
+  border-radius: 8px;
 }
 
 .no-rooms p {
+  margin: 0;
   font-size: 18px;
   color: #6b7280;
-  margin: 0;
 }
 
+/* LOADING */
 .loading {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
-  gap: 20px;
+  min-height: 300px;
+  gap: 15px;
   background-color: #ffffff;
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border: 4px solid #f3f4f6;
   border-top: 4px solid #2196f3;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
+.loading p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ANIMATION */
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
 
-.loading p {
-  color: #6b7280;
-  font-size: 16px;
-}
-
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .hotel-details-container {
-    padding: 15px;
+    padding: 20px 15px;
   }
 
   .hotel-info h1 {
     font-size: 24px;
   }
 
-  .date-info {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .date-info > div {
-    padding: 12px;
-  }
-
   .rooms-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .room-features {
-    justify-content: flex-start;
+    gap: 15px;
   }
 
   .room-features span {
-    font-size: 13px;
-    padding: 5px 10px;
+    font-size: 12px;
+    padding: 5px 8px;
   }
 
   .price {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .price.total {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
 @media (max-width: 480px) {
   .date-info {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
 
-  .hotel-header {
-    margin-bottom: 20px;
-  }
-
-  .booking-summary {
-    padding: 12px;
-    margin-bottom: 20px;
-  }
-
   .room-content {
-    padding: 15px;
+    padding: 12px;
   }
 
   .room-pricing {
-    padding: 12px;
+    padding: 10px;
   }
 
   .btn-book {
-    padding: 10px 20px;
-    font-size: 15px;
+    padding: 10px;
+    font-size: 14px;
   }
-}
 
-.room-card {
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  .sort-bar {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .sort-select {
+    width: 100%;
   }
-}
-
-.btn-book:focus,
-.back-btn:focus {
-  outline: 2px solid #2196f3;
-  outline-offset: 2px;
-}
-
-.room-card {
-  cursor: pointer;
-  position: relative;
-}
-
-.room-card:hover .room-content h3 {
-  color: #2196f3;
-}
-
-.room-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #2196f3 0%, #42a5f5 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.room-card:hover::before {
-  opacity: 1;
-}
-
-.room-card.selected::before {
-  opacity: 1;
-}
-
-body {
-  background-color: #fafbfc;
-  margin: 0;
-  padding: 0;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
 }

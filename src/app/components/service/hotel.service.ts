@@ -8,6 +8,8 @@ export interface Hotel {
   city: string;
   address: string;
   description: string;
+  isFavorite: boolean;
+  lowestPrice?: number;
 }
 
 @Injectable({
@@ -27,5 +29,11 @@ export class HotelService {
   }
   getHotelById(id: number): Observable<Hotel> {
     return this.http.get<Hotel>(`${this.apiUrl}/${id}`);
+  }
+
+  searchCities(query: string): Observable<string[]> {
+    return this.http.get<string[]>(
+      `${this.apiUrl}/cities/search?query=${query}`,
+    );
   }
 }

@@ -1,15 +1,20 @@
 <div class="verify-container" *ngIf="!loading">
-  <div [ngClass]="{ success: success, error: !success }" class="verify-box">
+  <div class="verify-box" [ngClass]="{ success: success, error: !success }">
     <h2>{{ serverMessage }}</h2>
   </div>
 
+  <div *ngIf="success">
+    <a [routerLink]="['/login']">Przejdź do logowania</a>
+  </div>
+
   <button
-    *ngIf="!isResendClicked"
+    *ngIf="!success && !isResendClicked"
     type="button"
     (click)="resendCode()"
-    [disabled]="isSubmitting || success === true"
+    [disabled]="isSubmitting"
   >
     <span *ngIf="!isSubmitting">Wyślij ponownie kod</span>
+    <span *ngIf="isSubmitting">Wysyłanie...</span>
   </button>
 </div>
 

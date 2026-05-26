@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HotelService } from '../service/hotel.service';
 
 @Component({
   selector: 'app-home-page',
@@ -12,8 +13,13 @@ export class HomePageComponent implements OnInit {
   checkOutDate: string = '';
   guests: number = 1;
   today: string = '';
+  suggestions: string[] = [];
+  debounceTimeout: any;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private hotelService: HotelService,
+  ) {}
 
   ngOnInit(): void {
     const now = new Date();
@@ -23,6 +29,27 @@ export class HomePageComponent implements OnInit {
     tomorrow.setDate(tomorrow.getDate() + 1);
     this.checkInDate = this.today;
     this.checkOutDate = tomorrow.toISOString().split('T')[0];
+  }
+
+  onSearch(event: {
+    city: string;
+    checkIn: string;
+    checkOut: string;
+    guests: number;
+  }) {
+    this.destination = event.city;
+    this.checkInDate = event.checkIn;
+    this.checkOutDate = event.checkOut;
+    this.guests = event.guests;
+
+    this.router.navigate(['/hotels'], {
+      queryParams: {
+        city: this.destination,
+        checkIn: this.checkInDate,
+        checkOut: this.checkOutDate,
+        guests: this.guests,
+      },
+    });
   }
 
   isDateRangeValid(): boolean {
@@ -56,5 +83,27 @@ export class HomePageComponent implements OnInit {
   quickSearch(city: string): void {
     this.destination = city;
     this.searchHotels();
+  }
+  onSearchChange() {
+    clearTimeout(this.debounceTimeout);
+
+    if (!this.destination || this.destination.length < 2) {
+      this.suggestions = [];
+      return;
+    }
+
+    this.debounceTimeout = setTimeout(() => {
+      this.hotelService.searchCities(this.destination).subscribe((data) => {
+        this.suggestions = data;
+      });
+    }, 300);
+  }
+
+  hideSuggestions() {
+    setTimeout(() => (this.suggestions = []), 200);
+  }
+  selectCity(city: string) {
+    this.destination = city;
+    this.suggestions = [];
   }
 }

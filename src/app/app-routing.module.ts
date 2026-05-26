@@ -12,13 +12,19 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { HotelsListComponent } from './components/hotel-list/hotel-list.component';
 import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
 import { BookingComponent } from './components/booking/booking.component';
+import { ForgotPasswordComponent } from './components/passwordDetails/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/passwordDetails/reset-password/reset-password.component';
+import { ForgotPasswordSentComponent } from './components/passwordDetails/forgot-password-sent/forgot-password-sent.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'forgot-password/sent', component: ForgotPasswordSentComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'verify', component: VerifyComponent, canActivate: [AuthGuard] },
+  { path: 'verify', component: VerifyComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'hotels', component: HotelsListComponent },
   { path: '', component: HomePageComponent },

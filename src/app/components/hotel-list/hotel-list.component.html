@@ -1,20 +1,11 @@
 <div class="hotels-list-container">
-  <div class="search-summary">
-    <h2>Hotele w mieście: {{ city }}</h2>
-    <div class="search-details">
-      <span
-        ><i class="fas fa-calendar"></i> {{ checkInDate }} -
-        {{ checkOutDate }}</span
-      >
-      <span><i class="fas fa-moon"></i> {{ calculateNights() }} nocy</span>
-      <span><i class="fas fa-users"></i> {{ guests }} gości</span>
-    </div>
-  </div>
-
-  <div *ngIf="loading" class="loading">
-    <div class="spinner"></div>
-    <p>Szukamy najlepszych hoteli...</p>
-  </div>
+  <app-search-bar
+    [destination]="city"
+    [(checkInDate)]="checkInDate"
+    [(checkOutDate)]="checkOutDate"
+    [(guests)]="guests"
+    (search)="onSearch($event)"
+  ></app-search-bar>
 
   <div *ngIf="error" class="error">{{ error }}</div>
 
@@ -32,31 +23,48 @@
           <i class="fas fa-map-marker-alt"></i>
           {{ hotel.address }}, {{ hotel.city }}
         </p>
-
+        <div>
+          <span>Udogodnienia:</span>
+        </div>
         <div class="hotel-features">
           <span><i class="fas fa-wifi"></i> WiFi</span>
           <span><i class="fas fa-parking"></i> Parking</span>
           <span><i class="fas fa-swimming-pool"></i> Basen</span>
         </div>
+        <button
+          *ngIf="isLoggedIn"
+          class="btn-favorite"
+          [class.favorited]="hotel.isFavorite"
+          (click)="toggleFavorite(hotel)"
+        >
+          {{ hotel.isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych" }}
+        </button>
 
         <div class="hotel-footer">
           <div class="price-info">
             <span class="price-label">Cena od</span>
-            <span class="price">150 PLN</span>
+            <span class="price">{{
+              hotel.lowestPrice !== null && hotel.lowestPrice !== undefined
+                ? hotel.lowestPrice + " PLN"
+                : "Brak danych"
+            }}</span>
             <span class="price-period">za noc</span>
           </div>
 
           <button class="btn-details" (click)="goToHotelDetails(hotel.id)">
-            Zobacz pokoje
+            Przejdź do oferty
           </button>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="!loading && hotels.length === 0" class="no-results">
+  <div
+    *ngIf="hasSearched && !loading && hotels.length === 0"
+    class="no-results"
+  >
     <i class="fas fa-search"></i>
-    <p>Nie znaleziono hoteli w mieście {{ city }}</p>
+    <p>Nie znaleziono hoteli w miejscowości {{ city }}</p>
     <button routerLink="/">Wróć do wyszukiwania</button>
   </div>
 </div>

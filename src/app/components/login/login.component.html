@@ -33,10 +33,13 @@
     <button type="submit">Zaloguj</button>
   </form>
 
+  <div class="forgot-password">
+    <a routerLink="/forgot-password">Nie pamiętam hasła</a>
+  </div>
   <div
     class="server-error"
     *ngIf="serverMessage"
-    style="color: red; margin-top: 10px"
+    style="color: red; margin-top: 10px; text-align: center"
   >
     {{ serverMessage }}
   </div>

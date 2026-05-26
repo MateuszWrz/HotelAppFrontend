@@ -13,15 +13,43 @@ import { AuthService } from '../service/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
+
+  // intercept(
+  //   req: HttpRequest<any>,
+  //   next: HttpHandler
+  // ): Observable<HttpEvent<any>> {
+  //   const token = this.authService.getToken();
+
+  //   let authReq = req;
+  //   if (token) {
+  //     authReq = req.clone({
+  //       setHeaders: { Authorization: `Bearer ${token}` },
+  //     });
+  //   }
+
+  //   return next.handle(authReq).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       if (error.status === 401) {
+  //         this.authService.logout();
+  //         this.router.navigate(['/login']);
+  //       }
+  //       return throwError(() => error);
+  //     })
+  //   );
+  // }
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
     let authReq = req;
+
     if (token) {
       authReq = req.clone({
         setHeaders: { Authorization: `Bearer ${token}` },
@@ -30,12 +58,13 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error.status === 401 && !req.url.includes('/reservations')) {
           this.authService.logout();
           this.router.navigate(['/login']);
         }
+
         return throwError(() => error);
-      })
+      }),
     );
   }
 }

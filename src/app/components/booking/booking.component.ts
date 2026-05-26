@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../service/auth.service';
 
 interface ReservationRequest {
@@ -36,7 +36,7 @@ export class BookingComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -119,6 +119,16 @@ export class BookingComponent implements OnInit {
       return;
     }
 
+    if (!this.user?.name || !this.user?.lastName) {
+      this.error = 'Podaj imię i nazwisko przed dokonaniem rezerwacji.';
+      return;
+    }
+
+    if (!this.user?.phoneNumber) {
+      this.error = 'Podaj numer telefonu przed dokonaniem rezerwacji.';
+      return;
+    }
+
     this.loading = true;
     this.error = null;
 
@@ -136,18 +146,34 @@ export class BookingComponent implements OnInit {
           this.reservationNumber = response.reservationNumber;
           this.loading = false;
 
-          setTimeout(() => {
-            this.router.navigate(['/profile'], {
-              queryParams: { tab: 'myReservations' },
-            });
-          }, 3000);
+          // setTimeout(() => {
+          //   this.router.navigate(['/profile'], {
+          //     queryParams: { tab: 'myReservations' },
+          //   });
+          // }, 3000);
         },
-        error: (err) => {
-          this.error = 'Nie udało się dokonać rezerwacji. Spróbuj ponownie.';
+
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 409) {
+            this.error =
+              'Ten pokój został właśnie zarezerwowany przez innego użytkownika.';
+          } else if (err.status === 401) {
+            this.error = 'Sesja wygasła. Zaloguj się ponownie.';
+            this.router.navigate(['/login']);
+          } else if (err.status === 400) {
+            this.error = 'Nieprawidłowe dane rezerwacji.';
+          } else {
+            this.error = 'Nie udało się dokonać rezerwacji. Spróbuj ponownie.';
+          }
+
           this.loading = false;
           console.error('Booking error:', err);
         },
       });
+  }
+
+  isUserDataValid(): boolean {
+    return !!(this.user?.name && this.user?.lastName && this.user?.phoneNumber);
   }
 
   goBack(): void {

@@ -18,6 +18,10 @@ import { HotelDetailsComponent } from './components/hotel-details/hotel-details.
 import { BookingComponent } from './components/booking/booking.component';
 import { VerifyComponent } from './components/verify/verify.component';
 import { ResendVerifyCodeComponent } from './components/resend-verify-code/resend-verify-code.component';
+import { ForgotPasswordComponent } from './components/passwordDetails/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/passwordDetails/reset-password/reset-password.component';
+import { ForgotPasswordSentComponent } from './components/passwordDetails/forgot-password-sent/forgot-password-sent.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,10 @@ import { ResendVerifyCodeComponent } from './components/resend-verify-code/resen
     BookingComponent,
     VerifyComponent,
     ResendVerifyCodeComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    ForgotPasswordSentComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,

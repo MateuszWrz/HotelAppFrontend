@@ -10,8 +10,22 @@ export class RoomService {
 
   constructor(private http: HttpClient) {}
 
-  getRoomsByHotel(hotelId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/hotels/${hotelId}/rooms`);
+  getRoomsByHotel(
+    hotelId: number,
+    guests: number,
+    checkIn: string,
+    checkOut: string,
+  ) {
+    return this.http.get<any[]>(
+      `http://localhost:8081/hotel/${hotelId}/rooms`,
+      {
+        params: {
+          guests,
+          checkIn,
+          checkOut,
+        },
+      },
+    );
   }
 
   getRoomById(id: number): Observable<any> {

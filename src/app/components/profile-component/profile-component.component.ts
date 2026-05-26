@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../service/auth.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReservationService } from '../service/reservation.service';
 import { ReservationDTO } from '../models/reservation.model';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
+import { FavoriteService, FavoriteHotel } from '../service/favorite.service';
 
 @Component({
   selector: 'app-profile-component',
@@ -13,13 +13,19 @@ import { User } from '../models/user.model';
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
-  activeTab: 'myData' | 'history' | 'myReservations' = 'myData';
+  activeTab: 'myData' | 'history' | 'myReservations' | 'favorites' = 'myData';
   historyReservations: ReservationDTO[] = [];
   activeReservations: ReservationDTO[] = [];
   editMode: { [key: string]: boolean } = {};
-  editForm!: FormGroup;
   loading = false;
   error: string | null = null;
+  showConfirmModal: boolean = false;
+  showCancelModal: boolean = false;
+  showCannotCancelModal = false;
+  showCancelSuccessModal = false;
+  pendingReservation: ReservationDTO | null = null;
+  canceledReservationNumber: string = '';
+  favorites: any[] = [];
 
   userFields = [
     {
@@ -43,7 +49,7 @@ export class ProfileComponent implements OnInit {
     {
       key: 'phoneNumber',
       label: 'Numer telefonu',
-      placeholder: 'Dodaj numer telefonu',
+      placeholder: 'Podaj numer telefonu',
       editable: true,
     },
     {
@@ -74,9 +80,9 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService,
     private reservationService: ReservationService,
-    private formBuilder: FormBuilder
+    private router: Router,
+    private favoriteService: FavoriteService,
   ) {}
 
   getUserFieldValue(fieldKey: string): any {
@@ -116,12 +122,10 @@ export class ProfileComponent implements OnInit {
 
     this.reservationService.getHistoryReservations().subscribe({
       next: (data) => {
-        console.log('Historia rezerwacji:', data);
         this.historyReservations = data;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading history:', err);
         this.error = 'Nie udało się pobrać historii rezerwacji';
         this.loading = false;
       },
@@ -134,19 +138,17 @@ export class ProfileComponent implements OnInit {
 
     this.reservationService.getActiveReservations().subscribe({
       next: (data) => {
-        console.log('Aktywne rezerwacje:', data);
         this.activeReservations = data;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading reservations:', err);
         this.error = 'Nie udało się pobrać aktywnych rezerwacji';
         this.loading = false;
       },
     });
   }
 
-  selectTab(tab: 'myData' | 'history' | 'myReservations') {
+  selectTab(tab: 'myData' | 'history' | 'myReservations' | 'favorites') {
     this.activeTab = tab;
     this.error = null;
 
@@ -156,6 +158,38 @@ export class ProfileComponent implements OnInit {
     if (tab === 'myReservations') {
       this.loadActiveReservations();
     }
+    if (tab === 'favorites') {
+      this.loadFavoriteHotels();
+    }
+  }
+
+  loadFavoriteHotels() {
+    this.favoriteService.getFavorites().subscribe({
+      next: (favorites: FavoriteHotel[]) => {
+        this.favorites = favorites;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Błąd pobierania ulubionych:', err);
+        this.error = 'Nie udało się pobrać ulubionych hoteli';
+        this.loading = false;
+      },
+    });
+  }
+
+  viewHotel(hotelId: number) {
+    this.router.navigate(['/hotel', hotelId]);
+  }
+
+  removeFavorite(hotelId: number) {
+    this.favoriteService.remove(hotelId).subscribe({
+      next: () => {
+        this.favorites = this.favorites.filter((h) => h.id !== hotelId);
+      },
+      error: (err) => {
+        console.error('Nie udało się usunąć hotelu z ulubionych', err);
+      },
+    });
   }
 
   toggleEdit(key: string) {
@@ -199,6 +233,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  canCancelReservation(checkInDate: string): boolean {
+    const today = new Date();
+    const checkIn = new Date(checkInDate);
+
+    const diffTime = checkIn.getTime() - today.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    return diffDays >= 2;
+  }
+
   calculateNights(checkIn: string, checkOut: string): number {
     const start = new Date(checkIn);
     const end = new Date(checkOut);
@@ -206,24 +250,49 @@ export class ProfileComponent implements OnInit {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
-  cancelReservation(reservation: ReservationDTO) {
-    if (
-      confirm(
-        `Czy na pewno chcesz anulować rezerwację nr ${reservation.reservationNumber}?`
-      )
-    ) {
-      this.loading = true;
+  openCancelModal(reservation: ReservationDTO) {
+    this.pendingReservation = reservation;
 
-      this.reservationService.cancelReservation(reservation.id).subscribe({
+    if (this.canCancelReservation(reservation.checkInDate)) {
+      this.showConfirmModal = true;
+    } else {
+      this.showCannotCancelModal = true;
+    }
+  }
+
+  closeConfirmModal() {
+    this.showConfirmModal = false;
+    this.pendingReservation = null;
+  }
+
+  confirmCancelReservation() {
+    if (!this.pendingReservation) return;
+
+    this.reservationService
+      .cancelReservation(this.pendingReservation.id)
+      .subscribe({
         next: () => {
-          this.loadActiveReservations();
+          this.activeReservations = this.activeReservations.filter(
+            (r) => r.id !== this.pendingReservation?.id,
+          );
+
+          this.showConfirmModal = false;
+          this.showCancelSuccessModal = true;
+
+          this.pendingReservation = null;
         },
-        error: (err) => {
-          console.error('Błąd anulowania:', err);
-          this.loading = false;
+        error: () => {
+          alert('Nie udało się anulować rezerwacji');
         },
       });
-    }
+  }
+
+  closeCannotCancelModal() {
+    this.showCannotCancelModal = false;
+  }
+
+  closeCancelSuccessModal() {
+    this.showCancelSuccessModal = false;
   }
 
   isUpcoming(checkInDate: string): boolean {

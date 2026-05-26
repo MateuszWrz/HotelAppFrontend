@@ -56,25 +56,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .loading p {
   color: #7f8c8d;
   font-size: 1.1rem;
@@ -108,7 +89,9 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   border: 1px solid rgb(228, 227, 227);
 }
 
@@ -199,9 +182,9 @@
 }
 
 .price {
-  font-size: 1.3rem; 
-  font-weight: 600; 
-  color: #2c3e50; 
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
   line-height: 1;
 }
 
@@ -268,6 +251,42 @@
   background: #2980b9;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-favorite {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  border-radius: 6px;
+  border: 1px solid #3498db;
+
+  background: white;
+  color: #3498db;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-favorite:hover {
+  background: #3498db;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(52, 152, 219, 0.25);
+}
+
+.btn-favorite.favorited {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.btn-favorite.favorited:hover {
+  background: #2980b9;
 }
 
 @media (max-width: 768px) {

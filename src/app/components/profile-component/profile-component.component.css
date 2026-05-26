@@ -217,7 +217,7 @@
   padding: 40px 20px;
   background: #f9fafb;
   border-radius: 8px;
-  border: 2px dashed #d1d5db;
+  border: 2px solid #d1d5db;
 }
 
 .loading p {
@@ -235,6 +235,180 @@
   background: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: 6px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #2c3e50;
+}
+
+.modal p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-btn {
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.modal-btn.confirm {
+  background: #dc2626;
+  color: white;
+}
+
+.modal-btn.confirm:hover {
+  background: #c0392b;
+}
+
+.modal-btn.cancel {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.modal-btn.cancel:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+.modal-btn:not(.confirm):not(.cancel) {
+  background: #0077cc;
+  color: white;
+}
+
+.modal-btn:not(.confirm):not(.cancel):hover {
+  background: #005fa3;
+}
+.favorites-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.favorite-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.favorite-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.favorite-header h3 {
+  font-size: 20px;
+  margin: 0 0 5px 0;
+  color: #1a1a1a;
+}
+
+.favorite-header .favorite-city {
+  font-size: 14px;
+  color: #555555;
+}
+
+.favorite-details p {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 5px 0;
+}
+
+.favorite-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-view {
+  padding: 10px 18px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-view:hover {
+  background-color: #1976d2;
+}
+
+.btn-remove {
+  padding: 10px 18px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-remove:hover {
+  background-color: #d32f2f;
+}
+
+.btn-favorite {
+  background-color: #ffcc00;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.btn-favorite.favorited {
+  background-color: #ff6600;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {

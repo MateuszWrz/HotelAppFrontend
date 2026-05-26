@@ -9,7 +9,10 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:8081';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   login(email: string, password: string): Observable<any> {
     return this.http
@@ -17,23 +20,40 @@ export class AuthService {
       .pipe(
         tap((response) => {
           localStorage.setItem('token', response.token);
-        })
+        }),
       );
   }
 
-  verifyAccount(token: string, email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verify`, { token, email });
+  verifyAccount(token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/verify`, { token });
   }
 
   register(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, { email, password });
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/reset-password`,
+      {
+        token,
+        newPassword,
+      },
+      {
+        responseType: 'text',
+      },
+    );
+  }
+
   resendVerification(email: string): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/resend?email=${email}`,
       {},
-      { responseType: 'text' }
+      { responseType: 'text' },
     );
   }
 

@@ -12,14 +12,17 @@ export class RegisterComponent {
   isSubmitting = false;
   serverMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+  ) {
     this.registerForm = this.fb.group(
       {
         email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.required],
         confirmPassword: ['', Validators.required],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator },
     );
   }
 
@@ -36,7 +39,8 @@ export class RegisterComponent {
     }
 
     this.isSubmitting = true;
-    this.serverMessage = null;
+
+    this.serverMessage = 'Na Twój email został wysłany link aktywacyjny.';
 
     this.http
       .post('http://localhost:8081/register', this.registerForm.value, {
@@ -44,13 +48,12 @@ export class RegisterComponent {
       })
       .subscribe({
         next: (res: string) => {
-          this.serverMessage = res;
+          console.log('Rejestracja wysłana:', res);
           this.registerForm.reset();
           this.isSubmitting = false;
         },
         error: (err: HttpErrorResponse) => {
           console.error('Błąd rejestracji', err);
-
           if (err.error && typeof err.error === 'object' && err.error.message) {
             this.serverMessage = err.error.message;
           } else if (typeof err.error === 'string') {
@@ -58,7 +61,6 @@ export class RegisterComponent {
           } else {
             this.serverMessage = 'Wystąpił błąd serwera';
           }
-
           this.isSubmitting = false;
         },
       });
