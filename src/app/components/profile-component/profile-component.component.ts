@@ -103,7 +103,7 @@ export class ProfileComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.http.get<User>('http://localhost:8081/user').subscribe({
+    this.http.get<User>('https://hotel-backend-1-0.onrender.com/user').subscribe({
       next: (data) => {
         this.user = data;
         this.loading = false;
@@ -210,7 +210,7 @@ export class ProfileComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.http.put<User>('http://localhost:8081/user', this.user).subscribe({
+    this.http.put<User>('https://hotel-backend-1-0.onrender.com/user', this.user).subscribe({
       next: (updatedUser) => {
         this.user = updatedUser;
         Object.keys(this.editMode).forEach((k) => (this.editMode[k] = false));

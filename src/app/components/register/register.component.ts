@@ -43,7 +43,7 @@ export class RegisterComponent {
     this.serverMessage = 'Na Twój email został wysłany link aktywacyjny.';
 
     this.http
-      .post('http://localhost:8081/register', this.registerForm.value, {
+      .post('https://hotel-backend-1-0.onrender.com/register', this.registerForm.value, {
         responseType: 'text',
       })
       .subscribe({

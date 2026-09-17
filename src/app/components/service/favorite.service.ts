@@ -11,7 +11,7 @@ export interface FavoriteHotel {
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {
   // private api = 'http://localhost:8081/favorites';
-    private apiUrl = 'https://hotel-backend-1-0.onrender.com';
+    private apiUrl = 'https://hotel-backend-1-0.onrender.com/favorites';
 
 
   constructor(private http: HttpClient) {}
@@ -22,14 +22,14 @@ export class FavoriteService {
 
   add(hotelId: number): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
-      `${this.apiUrl}/favorites/${hotelId}`,
+      `${this.apiUrl}/${hotelId}`,
       {},
     );
   }
 
   remove(hotelId: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(
-      `${this.apiUrl}/favorites/${hotelId}`,
+      `${this.apiUrl}/${hotelId}`,
     );
   }
 }

@@ -70,14 +70,14 @@ export class BookingComponent implements OnInit {
   loadData(): void {
     this.loading = true;
 
-    this.http.get('http://localhost:8081/user').subscribe({
+    this.http.get('https://hotel-backend-1-0.onrender.com/user').subscribe({
       next: (user) => {
         this.user = user;
       },
       error: (err) => console.error('Error loading user:', err),
     });
 
-    this.http.get(`http://localhost:8081/room/${this.roomId}`).subscribe({
+    this.http.get(`https://hotel-backend-1-0.onrender.com/room/${this.roomId}`).subscribe({
       next: (room: any) => {
         this.room = room;
         this.calculateTotalPrice();
@@ -91,7 +91,7 @@ export class BookingComponent implements OnInit {
   }
 
   loadHotelData(): void {
-    this.http.get(`http://localhost:8081/hotels/${this.hotelId}`).subscribe({
+    this.http.get(`https://hotel-backend-1-0.onrender.com/hotels/${this.hotelId}`).subscribe({
       next: (hotel) => {
         this.hotel = hotel;
         this.loading = false;
@@ -139,7 +139,7 @@ export class BookingComponent implements OnInit {
     };
 
     this.http
-      .post('http://localhost:8081/reservations', reservationRequest)
+      .post('https://hotel-backend-1-0.onrender.com/reservations', reservationRequest)
       .subscribe({
         next: (response: any) => {
           this.bookingConfirmed = true;

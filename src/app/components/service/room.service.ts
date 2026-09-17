@@ -18,7 +18,7 @@ export class RoomService {
     checkOut: string,
   ) {
     return this.http.get<any[]>(
-      `http://localhost:8081/hotel/${hotelId}/rooms`,
+      `https://hotel-backend-1-0.onrender.com/${hotelId}/rooms`,
       {
         params: {
           guests,
