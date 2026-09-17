@@ -1,0 +1,120 @@
+<div class="hotel-details-container" *ngIf="hotel">
+  <div class="hotel-header">
+    <div class="hotel-info">
+      <h1>{{ hotel.name }}</h1>
+      <p class="hotel-address">
+        Adres:
+        {{ hotel.address }}, {{ hotel.city }} {{ hotel.postalCode }}
+      </p>
+      <p class="hotel-contact" *ngIf="hotel.numberPhone">
+        Numer telefonu:
+        {{ hotel.numberPhone }}
+      </p>
+    </div>
+  </div>
+
+  <app-search-bar
+    [destination]="hotel.city"
+    [checkInDate]="checkInDate"
+    [checkOutDate]="checkOutDate"
+    [guests]="guests"
+    [disableDestination]="true"
+    (search)="onSearch($event)"
+  ></app-search-bar>
+
+  <div class="sort-bar">
+    <label for="sort">Sortuj:</label>
+
+    <select
+      id="sort"
+      #sortSelect
+      class="sort-select"
+      (change)="onSortChange(sortSelect.value)"
+    >
+      <option value="priceAsc">Cena rosnąco</option>
+      <option value="priceDesc">Cena malejąco</option>
+    </select>
+  </div>
+
+  <div class="rooms-section">
+    <h2>Dostępne pokoje</h2>
+
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Ładowanie informacji o hotelu...</p>
+    </div>
+
+    <div
+      *ngIf="!loading && rooms.length > 0; else noRoomsTemplate"
+      class="rooms-grid"
+    >
+      <div
+        class="room-card"
+        *ngFor="let room of rooms"
+        [class.selected]="selectedRoom?.id === room.id"
+      >
+        <img
+          class="room-image"
+          src="assets/images/hotel-room.jpg"
+          alt="Pokój"
+        />
+
+        <div class="room-content">
+          <h3>{{ room.description || "Pokój standardowy" }}</h3>
+
+          <div class="room-features">
+            <span>
+              <i class="fas fa-bed"></i> {{ room.maxGuests }} osobowy
+            </span>
+            <span><i class="fas fa-wifi"></i> WiFi</span>
+            <span><i class="fas fa-tv"></i> TV</span>
+            <span><i class="fas fa-snowflake"></i> Klimatyzacja</span>
+          </div>
+
+          <div class="room-pricing">
+            <div class="price-per-night">
+              <span class="label">Cena za noc:</span>
+              <span class="price">
+                {{ formatPrice(room.pricePerNight) }} PLN
+              </span>
+            </div>
+
+            <div class="total-price">
+              <span class="label">
+                Cena całkowita ({{ calculateNights() }} nocy):
+              </span>
+              <span class="price total">
+                {{ calculateTotalPrice(room.pricePerNight) }} PLN
+              </span>
+            </div>
+
+            <div class="availability">
+              <span *ngIf="room.available" class="available"> Dostępny </span>
+              <span *ngIf="!room.available" class="unavailable">
+                Niedostępny w wybranym terminie
+              </span>
+            </div>
+
+            <button
+              class="btn-book"
+              [disabled]="!room.available"
+              (click)="bookRoom(room)"
+            >
+              {{
+                room.available
+                  ? "Zarezerwuj teraz"
+                  : "Niedostępny w tym terminie"
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noRoomsTemplate>
+      <div *ngIf="!loading" class="no-rooms">
+        <p>Brak dostępnych pokoi</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

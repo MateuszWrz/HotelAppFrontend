@@ -1,0 +1,57 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <a routerLink="/">HotelBooking</a>
+    </div>
+
+    <div class="menu-toggle" (click)="toggleMenu()" [class.open]="menuIsOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="navbar-actions pc-menu">
+      <a routerLink="/login" *ngIf="!authService.isLoggedIn()">Logowanie</a>
+      <a
+        class="register-btn"
+        routerLink="/register"
+        *ngIf="!authService.isLoggedIn()"
+        >Rejestracja</a
+      >
+      <a
+        routerLink="/logout"
+        *ngIf="authService.isLoggedIn()"
+        (click)="authService.logout()"
+        >Wyloguj</a
+      >
+      <a routerLink="/profile" *ngIf="authService.isLoggedIn()">Profil</a>
+    </div>
+
+    <div class="navbar-actions fullscreen-menu" [class.active]="menuIsOpen">
+      <a
+        routerLink="/login"
+        *ngIf="!authService.isLoggedIn()"
+        (click)="closeMenu()"
+        >Logowanie</a
+      >
+      <a
+        routerLink="/register"
+        *ngIf="!authService.isLoggedIn()"
+        (click)="closeMenu()"
+        >Rejestracja</a
+      >
+      <a
+        routerLink="/logout"
+        *ngIf="authService.isLoggedIn()"
+        (click)="authService.logout(); closeMenu()"
+        >Wyloguj</a
+      >
+      <a
+        routerLink="/profile"
+        *ngIf="authService.isLoggedIn()"
+        (click)="closeMenu()"
+        >Profil</a
+      >
+    </div>
+  </div>
+</nav>

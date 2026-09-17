@@ -1,0 +1,56 @@
+<div class="search-bar">
+  <div class="search-field autocomplete-wrapper">
+    <label>Cel podróży</label>
+    <input
+      type="text"
+      placeholder="Dokąd chcesz jechać?"
+      [(ngModel)]="destination"
+      (ngModelChange)="cityError = false"
+      (ngModelChange)="onDestinationChange($event)"
+      [readonly]="disableDestination"
+      (keyup.enter)="submitSearch()"
+      (blur)="hideSuggestions()"
+    />
+
+    <ul
+      class="autocomplete-list"
+      *ngIf="suggestions.length > 0 && !disableDestination"
+    >
+      <li *ngFor="let city of suggestions" (click)="selectCity(city)">
+        {{ city }}
+      </li>
+    </ul>
+    <div *ngIf="cityError" class="error">Proszę wpisać miasto</div>
+  </div>
+
+  <div class="search-field">
+    <label>Zameldowanie</label>
+    <input type="date" [(ngModel)]="checkInDate" [min]="today" />
+  </div>
+
+  <div class="search-field">
+    <label>Wymeldowanie</label>
+    <input
+      type="date"
+      [(ngModel)]="checkOutDate"
+      [min]="checkInDate || today"
+    />
+  </div>
+
+  <div class="search-field">
+    <label>Liczba gości</label>
+    <input type="number" min="1" max="10" [(ngModel)]="guests" />
+  </div>
+
+  <button
+    class="search-btn"
+    (click)="submitSearch()"
+    [disabled]="!isDateRangeValid()"
+  >
+    <i class="fas fa-search"></i> Szukaj
+  </button>
+
+  <div *ngIf="checkInDate && checkOutDate && !isDateRangeValid()" class="error">
+    Data wymeldowania musi być późniejsza niż data zameldowania
+  </div>
+</div>

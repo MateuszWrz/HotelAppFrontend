@@ -1,0 +1,70 @@
+<div class="hotels-list-container">
+  <app-search-bar
+    [destination]="city"
+    [(checkInDate)]="checkInDate"
+    [(checkOutDate)]="checkOutDate"
+    [(guests)]="guests"
+    (search)="onSearch($event)"
+  ></app-search-bar>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="hotels-grid" *ngIf="hotels.length > 0 && !loading">
+    <div class="hotel-card" *ngFor="let hotel of hotels">
+      <img
+        class="hotel-image"
+        src="assets/images/hotel.png"
+        alt="{{ hotel.name }}"
+      />
+
+      <div class="hotel-content">
+        <h3>{{ hotel.name }}</h3>
+        <p class="hotel-address">
+          <i class="fas fa-map-marker-alt"></i>
+          {{ hotel.address }}, {{ hotel.city }}
+        </p>
+        <div>
+          <span>Udogodnienia:</span>
+        </div>
+        <div class="hotel-features">
+          <span><i class="fas fa-wifi"></i> WiFi</span>
+          <span><i class="fas fa-parking"></i> Parking</span>
+          <span><i class="fas fa-swimming-pool"></i> Basen</span>
+        </div>
+        <button
+          *ngIf="isLoggedIn"
+          class="btn-favorite"
+          [class.favorited]="hotel.isFavorite"
+          (click)="toggleFavorite(hotel)"
+        >
+          {{ hotel.isFavorite ? "Usuń z ulubionych" : "Dodaj do ulubionych" }}
+        </button>
+
+        <div class="hotel-footer">
+          <div class="price-info">
+            <span class="price-label">Cena od</span>
+            <span class="price">{{
+              hotel.lowestPrice !== null && hotel.lowestPrice !== undefined
+                ? hotel.lowestPrice + " PLN"
+                : "Brak danych"
+            }}</span>
+            <span class="price-period">za noc</span>
+          </div>
+
+          <button class="btn-details" (click)="goToHotelDetails(hotel.id)">
+            Przejdź do oferty
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="hasSearched && !loading && hotels.length === 0"
+    class="no-results"
+  >
+    <i class="fas fa-search"></i>
+    <p>Nie znaleziono hoteli w miejscowości {{ city }}</p>
+    <button routerLink="/">Wróć do wyszukiwania</button>
+  </div>
+</div>

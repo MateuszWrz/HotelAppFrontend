@@ -1,0 +1,37 @@
+<div class="homepage-container">
+  <div class="hero">
+    <h1>Znajdź hotel</h1>
+  </div>
+
+  <app-search-bar
+    [(destination)]="destination"
+    [(checkInDate)]="checkInDate"
+    [(checkOutDate)]="checkOutDate"
+    [(guests)]="guests"
+    (search)="onSearch($event)"
+  ></app-search-bar>
+
+  <div class="destinations">
+    <h2>Popularne kierunki</h2>
+    <div class="cards">
+      <div class="card" (click)="quickSearch('Warszawa')">
+        <img src="assets/images/warszawa.jpg" alt="Warszawa" />
+        <div class="card-content">
+          <h3>Warszawa</h3>
+        </div>
+      </div>
+      <div class="card" (click)="quickSearch('Kraków')">
+        <img src="assets/images/krakow.jpg" alt="Kraków" />
+        <div class="card-content">
+          <h3>Kraków</h3>
+        </div>
+      </div>
+      <div class="card" (click)="quickSearch('Gdańsk')">
+        <img src="assets/images/Gdansk.jpg" alt="Gdańsk" />
+        <div class="card-content">
+          <h3>Gdańsk</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

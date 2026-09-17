@@ -1,0 +1,61 @@
+.verify-container {
+  max-width: 420px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.verify-box {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #333;
+}
+
+.verify-box h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.verify-box.success h2 {
+  color: #2e7d32;
+}
+
+.verify-box.error h2 {
+  color: #c62828;
+}
+
+.verify-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.verify-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.verify-loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f9;
+}
+
+.verify-loading p {
+  font-size: 16px;
+  color: #555;
+}
