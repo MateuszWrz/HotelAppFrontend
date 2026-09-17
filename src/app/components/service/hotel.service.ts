@@ -16,7 +16,8 @@ export interface Hotel {
   providedIn: 'root',
 })
 export class HotelService {
-  private apiUrl = 'http://localhost:8081/hotels';
+  // private apiUrl = 'http://localhost:8081/hotels';
+  private apiUrl = 'https://hotel-backend-1-0.onrender.com';
 
   constructor(private http: HttpClient) {}
 
@@ -25,15 +26,15 @@ export class HotelService {
   }
 
   searchHotelsByCity(city: string): Observable<Hotel[]> {
-    return this.http.get<Hotel[]>(`${this.apiUrl}/city/${city}`);
+    return this.http.get<Hotel[]>(`${this.apiUrl}/hotels/city/${city}`);
   }
   getHotelById(id: number): Observable<Hotel> {
-    return this.http.get<Hotel>(`${this.apiUrl}/${id}`);
+    return this.http.get<Hotel>(`${this.apiUrl}/hotels/${id}`);
   }
 
   searchCities(query: string): Observable<string[]> {
     return this.http.get<string[]>(
-      `${this.apiUrl}/cities/search?query=${query}`,
+      `${this.apiUrl}/hotels/cities/search?query=${query}`,
     );
   }
 }

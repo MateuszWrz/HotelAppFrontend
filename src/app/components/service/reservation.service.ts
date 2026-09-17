@@ -8,19 +8,20 @@ import { ReservationDTO } from '../models/reservation.model';
   providedIn: 'root',
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8081';
+  // private apiUrl = 'http://localhost:8081';
+  private apiUrl = 'https://hotel-backend-1-0.onrender.com';
 
   constructor(private http: HttpClient) {}
 
   getActiveReservations(): Observable<ReservationDTO[]> {
     return this.http.get<ReservationDTO[]>(
-      `${this.apiUrl}/my/reservations/active`
+      `${this.apiUrl}/my/reservations/active`,
     );
   }
 
   getHistoryReservations(): Observable<ReservationDTO[]> {
     return this.http.get<ReservationDTO[]>(
-      `${this.apiUrl}/my/reservations/history`
+      `${this.apiUrl}/my/reservations/history`,
     );
   }
 
@@ -28,3 +29,4 @@ export class ReservationService {
     return this.http.delete<void>(`${this.apiUrl}/reservations/${id}`);
   }
 }
+
